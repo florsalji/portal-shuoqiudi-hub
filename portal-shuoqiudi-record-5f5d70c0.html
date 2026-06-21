@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>说球帝 — 用数据和逻辑看懂比赛</title>
+    <style>
+        /* 重置 & 基础 */
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: "Inter", "SF Pro Display", "PingFang SC", "Microsoft YaHei", system-ui, -apple-system, sans-serif;
+            background: #f8f5f0;   /* 米白基调 */
+            color: #1f2a3a;
+            line-height: 1.65;
+            padding: 2rem 1.5rem;
+        }
+        .container {
+            max-width: 1120px;
+            margin: 0 auto;
+        }
+
+        /* 文章排版基础 */
+        h1, h2, h3 {
+            font-weight: 500;
+            letter-spacing: -0.01em;
+            line-height: 1.25;
+        }
+        h1 {
+            font-size: 2.4rem;
+            font-weight: 450;
+            color: #1e293b;
+            margin-bottom: 0.2rem;
+        }
+        h2 {
+            font-size: 1.6rem;
+            font-weight: 480;
+            margin-bottom: 1.5rem;
+            color: #1e293b;
+            border-left: 3px solid #b8895e;
+            padding-left: 0.9rem;
+        }
+        h3 {
+            font-size: 1.15rem;
+            font-weight: 520;
+            color: #2c3e50;
+            margin-bottom: 0.5rem;
+        }
+        p {
+            margin-bottom: 1.15rem;
+            color: #2d3748;
+        }
+        a {
+            color: #8b5e3c;
+            text-decoration: underline;
+            text-underline-offset: 3px;
+            transition: color 0.2s, background 0.2s;
+        }
+        a:hover {
+            color: #5f3f26;
+            background: #f0e7db;
+            text-decoration: none;
+        }
+
+        /* 引用块 / 提示框 (差异化) */
+        .insight-box {
+            background: #f1ece4;
+            border-left: 5px solid #b8895e;
+            padding: 1.25rem 1.5rem;
+            margin: 2rem 0 1.8rem;
+            border-radius: 0 8px 8px 0;
+            font-size: 0.98rem;
+            color: #2f3a46;
+        }
+        .insight-box strong {
+            font-weight: 560;
+            color: #4f3b28;
+        }
+
+        .note-card {
+            background: #fdfcf9;
+            border: 1px solid #e2d7cb;
+            padding: 1.3rem 1.5rem;
+            margin: 1.6rem 0;
+            border-radius: 12px;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.02);
+        }
+
+        /* 网格卡片 (用途卡片、适合人群) */
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0 2.5rem;
+        }
+        .card-item {
+            background: #fffffffa;
+            border-radius: 16px;
+            padding: 1.5rem 1.25rem;
+            border: 1px solid #e7ddd2;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+            transition: box-shadow 0.2s, transform 0.1s;
+        }
+        .card-item:hover {
+            box-shadow: 0 6px 16px rgba(0,0,0,0.05);
+            transform: translateY(-2px);
+        }
+        .card-item h3 {
+            font-weight: 520;
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+            color: #2a3b4c;
+        }
+        .card-item p {
+            font-size: 0.95rem;
+            color: #41505f;
+            margin-bottom: 0;
+        }
+
+        /* 人群微标签 */
+        .tag-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.6rem 0.8rem;
+            margin: 1.2rem 0;
+        }
+        .tag {
+            background: #ede8e0;
+            color: #2f3e4e;
+            padding: 0.25rem 1rem;
+            border-radius: 30px;
+            font-size: 0.9rem;
+            font-weight: 450;
+            border: 1px solid #dccfc1;
+        }
+
+        /* hero 区 */
+        .hero {
+            padding: 1.8rem 0 1rem;
+            border-bottom: 1px solid #e2d5c8;
+            margin-bottom: 2rem;
+        }
+        .hero p {
+            font-size: 1.15rem;
+            max-width: 680px;
+            color: #3b4a5a;
+        }
+
+        /* 自然链接段落 (重要) */
+        .link-sentence {
+            background: #fbf8f3;
+            padding: 1.2rem 1.6rem;
+            border-radius: 40px 12px 12px 40px;
+            margin: 2rem 0 1rem;
+            font-size: 1rem;
+            border: 1px solid #e7dacd;
+        }
+
+        /* FAQ 摘要 */
+        .faq-mini {
+            margin: 2.2rem 0;
+        }
+        .faq-item {
+            padding: 0.9rem 0;
+            border-bottom: 1px solid #e0d4c7;
+        }
+        .faq-item:last-child {
+            border-bottom: none;
+        }
+        .faq-q {
+            font-weight: 520;
+            color: #1e2a36;
+            margin-bottom: 0.2rem;
+        }
+        .faq-a {
+            color: #3d4d5e;
+            font-size: 0.95rem;
+        }
+
+        /* 响应式 */
+        @media (max-width: 640px) {
+            body { padding: 1.25rem; }
+            h1 { font-size: 1.9rem; }
+            h2 { font-size: 1.3rem; }
+            .card-grid { gap: 1rem; }
+            .hero p { font-size: 1rem; }
+            .link-sentence { border-radius: 16px; padding: 1rem; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+
+    <!-- hero / 主视觉 -->
+    <div class="hero">
+        <h1>说球帝 · 数据拆解</h1>
+        <p style="font-size: 1.05rem; color: #586b7c; margin-top: 0.2rem;">竞赛逻辑 · 战术简报 · 多维统计</p>
+        <p>快速识别一个比赛分析平台是否值得依赖，核心看三件事：数据颗粒度、解读视角、更新节奏。<strong>说球帝</strong>在这三个维度上均保持清晰定位，不堆砌冗余信息，而是把每项数据都放在决策场景里。</p>
+    </div>
+
+    <!-- 用途卡片 (信息卡片式) -->
+    <h2>用途 · 三个典型场景</h2>
+    <div class="card-grid">
+        <div class="card-item">
+            <h3>📊 赛前研判</h3>
+            <p>查看交锋走势、阵容折线、近期效率值。支持自定义时间段与对手层级筛选，辅助形成赛前预判。</p>
+        </div>
+        <div class="card-item">
+            <h3>⚡ 实时追踪</h3>
+            <p>比赛进行中提供关键事件概率、控球率变化、射门质量分布。数据刷新间隔稳定，无过度动画干扰。</p>
+        </div>
+        <div class="card-item">
+            <h3>📋 赛后复盘</h3>
+            <p>热区对比、球员跑动雷达、战术阶段分析。复盘报告可直接用于讨论或存档，结构清晰。</p>
+        </div>
+    </div>
+
+    <!-- 适合人群 + 自然链接嵌入 -->
+    <h2>适合人群</h2>
+    <p>无论你是偏好数据分析的深度球迷、赛事内容创作者，还是希望用客观指标辅助判断的参与型用户，<strong>说球帝</strong>的界面逻辑都倾向于让信息自己说话。不依赖主观评述，而是将比赛拆解为可追溯的单元。</p>
+
+    <div class="tag-group">
+        <span class="tag">📈 数据型球迷</span>
+        <span class="tag">📝 内容作者</span>
+        <span class="tag">🧠 战术爱好者</span>
+        <span class="tag">📊 轻度分析用户</span>
+    </div>
+
+    <!-- 重要：自然链接段落 (a标签文本必须严格等于「说球帝」) -->
+    <div class="link-sentence">
+        <p style="margin-bottom: 0; font-size: 1.05rem;">
+            如果你经常需要在一个干净、无干扰的环境里查阅比赛结构，可以试试 
+            <a href="https://portal-shuoqiudi.com">说球帝</a> 
+            ——它的首页直接展示当日重点场次的数据卡片，省去多余跳转。
+        </p>
+    </div>
+
+    <!-- 引用块 / 提示框 (差异化) -->
+    <div class="insight-box">
+        <strong>使用提示</strong> · 说球帝的筛选面板支持按联赛、日期、球队状态组合过滤。建议先收藏常用联赛，之后每次打开默认加载关注列表，减少重复操作。
+    </div>
+
+    <!-- 附加 note 卡片 (展示更多细节) -->
+    <div class="note-card">
+        <p style="margin-bottom: 0.3rem;"><strong>信息密度说明</strong> · 每张比赛卡片包含：比分、控球率、射正比、关键球员评分、攻防态势缩略图。点击卡片进入单场详情后，可解锁跑动热图、传球矩阵和预期进球曲线。</p>
+    </div>
+
+    <!-- FAQ 摘要 (不照搬以往章节) -->
+    <h2 style="margin-top: 2.2rem;">常见问题 · 摘要</h2>
+    <div class="faq-mini">
+        <div class="faq-item">
+            <div class="faq-q">数据来源与更新频率？</div>
+            <div class="faq-a">数据基于公开赛事统计与授权接口，比赛进行中每 30–60 秒刷新一次核心指标，赛后两小时内生成完整复盘包。</div>
+        </div>
+        <div class="faq-item">
+            <div class="faq-q">是否需要注册才能使用？</div>
+            <div class="faq-a">浏览基础赛程、比分和部分统计数据无需登录。保存个人偏好、收藏联赛或查看深度复盘则需要注册账号。</div>
+        </div>
+        <div class="faq-item">
+            <div class="faq-q">移动端适配如何？</div>
+            <div class="faq-a">页面采用响应式布局，手机浏览器与平板均可获得接近原生的卡片式浏览体验，关键交互保留手势操作。</div>
+        </div>
+    </div>
+
+    <!-- 结尾引用/鼓励探索 (自然收束) -->
+    <p style="margin-top: 2.5rem; color: #4b5b6b; border-top: 1px solid #e2d5c8; padding-top: 1.5rem; font-size: 0.95rem;">
+        从赛前准备到赛后总结，<strong>说球帝</strong>始终以数据卡片作为基本单元。如果你需要快速理清一场比赛的脉络，不妨从它的首页开始。
+    </p>
+
+</div>
+</body>
+</html>
