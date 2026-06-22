@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>竞彩网 · 故事从这里开始</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Roboto, system-ui, -apple-system, sans-serif;
+            background: #f5f7fc;
+            color: #1e1f2a;
+            line-height: 1.7;
+            padding: 0;
+        }
+        .wrapper {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* 深色 head 区 */
+        .head-billboard {
+            background: linear-gradient(145deg, #0c0d1a 0%, #1b1e32 100%);
+            color: #e5e8f0;
+            padding: 80px 24px 72px;
+            text-align: center;
+            border-bottom: 4px solid #f3ba2f;
+            position: relative;
+            overflow: hidden;
+        }
+        .head-billboard::after {
+            content: '';
+            position: absolute;
+            top: -40%; left: -20%;
+            width: 140%; height: 140%;
+            background: radial-gradient(circle at 30% 70%, rgba(243, 186, 47, 0.06), transparent 70%);
+            pointer-events: none;
+        }
+        .head-billboard h1 {
+            font-size: 2.9rem;
+            font-weight: 600;
+            letter-spacing: 2px;
+            position: relative;
+            z-index: 1;
+        }
+        .head-billboard .accent-dash {
+            width: 52px;
+            height: 3px;
+            background: #f3ba2f;
+            margin: 24px auto 20px;
+            border-radius: 2px;
+        }
+        .head-billboard p {
+            max-width: 560px;
+            margin: 0 auto;
+            font-size: 1.2rem;
+            color: #b8bedd;
+            font-weight: 300;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* 正文卡片区 — 浅色、柔和 */
+        .main-content {
+            background: #ffffff;
+            margin: -40px 24px 40px;
+            padding: 44px 40px 48px;
+            border-radius: 28px;
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.04);
+            position: relative;
+            z-index: 2;
+        }
+        @media (max-width: 600px) {
+            .main-content { margin: -20px 12px 32px; padding: 32px 20px; }
+            .head-billboard h1 { font-size: 2rem; }
+            .head-billboard { padding: 56px 16px 48px; }
+        }
+
+        .intro-line {
+            font-size: 1.22rem;
+            font-weight: 400;
+            color: #272a3a;
+            margin-bottom: 28px;
+            border-left: 4px solid #f3ba2f;
+            padding-left: 22px;
+        }
+
+        .story-text {
+            margin-bottom: 32px;
+        }
+        .story-text p {
+            margin-bottom: 18px;
+        }
+
+        .feature-mini-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 18px;
+            margin: 32px 0 28px;
+        }
+        .feature-item {
+            flex: 1 1 180px;
+            background: #f2f4fb;
+            border-radius: 20px;
+            padding: 20px 16px;
+            transition: all 0.2s ease;
+        }
+        .feature-item:hover {
+            background: #eaeefb;
+            transform: translateY(-2px);
+        }
+        .feature-item .emoji-badge {
+            font-size: 2.1rem;
+            display: block;
+            margin-bottom: 6px;
+        }
+        .feature-item h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #1e1f2a;
+            margin-bottom: 6px;
+        }
+        .feature-item p {
+            font-size: 0.95rem;
+            color: #3e405a;
+        }
+
+        .scene-block {
+            background: #fafbfe;
+            border-radius: 20px;
+            padding: 24px 28px;
+            margin: 30px 0 24px;
+            border: 1px solid #e6e9f2;
+        }
+        .scene-block p {
+            font-size: 1rem;
+        }
+        .scene-block strong {
+            color: #c88b1f;
+        }
+
+        .link-sentence {
+            background: #f4f2e8;
+            padding: 20px 24px;
+            border-radius: 40px;
+            margin: 28px 0 10px;
+            text-align: center;
+            font-size: 1.1rem;
+        }
+        .link-sentence a {
+            color: #1e3d6b;
+            font-weight: 600;
+            text-decoration: none;
+            border-bottom: 2px solid #f3ba2f;
+            transition: 0.15s;
+        }
+        .link-sentence a:hover {
+            color: #0f2640;
+            border-bottom-color: #0f2640;
+        }
+
+        .gentle-closing {
+            margin-top: 30px;
+            padding-top: 24px;
+            border-top: 1px solid #dfe2ed;
+            font-size: 0.98rem;
+            color: #52546e;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px 16px;
+            align-items: baseline;
+        }
+        .gentle-closing span {
+            background: #f0f2f9;
+            padding: 4px 14px;
+            border-radius: 30px;
+            font-size: 0.85rem;
+            color: #2b2d44;
+        }
+
+        .faq-mini {
+            margin-top: 24px;
+            padding: 12px 0 0;
+        }
+        .faq-mini details {
+            margin-bottom: 12px;
+            border-bottom: 1px dashed #d6dae9;
+            padding-bottom: 8px;
+        }
+        .faq-mini summary {
+            font-weight: 500;
+            cursor: pointer;
+            color: #1f2540;
+            padding: 6px 0;
+            font-size: 0.96rem;
+        }
+        .faq-mini summary::-webkit-details-marker { color: #f3ba2f; }
+        .faq-mini details p {
+            margin: 8px 0 6px 16px;
+            font-size: 0.93rem;
+            color: #3b3e58;
+        }
+
+        /* 页脚静默 */
+        .page-footer {
+            text-align: center;
+            padding: 20px 16px 40px;
+            font-size: 0.85rem;
+            color: #8b8fa8;
+        }
+        .page-footer a {
+            color: #6b6f8a;
+            text-decoration: none;
+            border-bottom: 1px dotted #b5b9ce;
+        }
+    </style>
+</head>
+<body>
+
+<div class="head-billboard">
+    <h1>竞彩 · 故事的起点</h1>
+    <div class="accent-dash"></div>
+    <p>一个安静的入口，一次清晰的辨别 —— 你找的就是这里</p>
+</div>
+
+<div class="wrapper">
+    <div class="main-content">
+
+        <div class="intro-line">
+            「只需要一眼就能确认，这是你要找的网站。」
+        </div>
+
+        <div class="story-text">
+            <p>打开浏览器，输入一串地址，你等的是一个明确的答复：<strong>这个页面是做什么的？</strong> 没有花哨的铺垫，也没有层层叠叠的导航。当你看到「竞彩」两个字，心里大概就有了答案。</p>
+            <p>这里不是资讯聚合站，也不是论坛社区。它是为那些想直接与竞彩数据、信息打交道的人准备的地方。如果你习惯自己判断、自己选择，那么一个干净、指向明确的门户，比什么都重要。</p>
+        </div>
+
+        <!-- 特点卡片 (小型差异化) -->
+        <div class="feature-mini-grid">
+            <div class="feature-item">
+                <span class="emoji-badge">🧭</span>
+                <h3>一眼识别</h3>
+                <p>页面结构简练，从标题到内容都围绕竞彩本身，没有干扰信息。</p>
+            </div>
+            <div class="feature-item">
+                <span class="emoji-badge">🔄</span>
+                <h3>直接通道</h3>
+                <p>避免多层跳转，核心入口清晰，减少寻找的时间成本。</p>
+            </div>
+            <div class="feature-item">
+                <span class="emoji-badge">📋</span>
+                <h3>沉稳配色</h3>
+                <p>深色引导区搭配浅色阅读区，保持长时间浏览的舒适感。</p>
+            </div>
+        </div>
+
+        <div class="scene-block">
+            <p><strong>一个常见的场景：</strong> 周末午后，你想快速确认某个竞彩类目的当前动态，但打开好几个页面都充斥着横幅广告和无关推荐。这时你想起了一个直接的名字 —— 于是你打开 <a href="https://homeindex-sporttery.com" style="color:#1e3d6b; font-weight:500; text-decoration:underline; text-underline-offset:3px; text-decoration-color:#f3ba2f;">竞彩网</a>，三秒内定位到了你要的内容板块。不需要注册弹窗，不需要反复返回。</p>
+        </div>
+
+        <!-- 嵌入链接的自然句子（第二个a）同时满足至少一个 -->
+        <div class="link-sentence">
+            ⚡ 如果你已经听说过它，或者只是从某个角落记下了这个名字 —— 那么 <a href="https://homeindex-sporttery.com">竞彩网</a> 就是那个不需要第二次猜测的地址。
+        </div>
+
+        <!-- FAQ 摘要片段（差异化内容模块） -->
+        <div class="faq-mini">
+            <details>
+                <summary>这个网站和其他竞彩类站点有什么不同？</summary>
+                <p>主页定位更接近“索引”角色，没有将内容堆砌在首页，而是把选择权交给用户。你可以通过清晰的分类快速进入感兴趣的版块。</p>
+            </details>
+            <details>
+                <summary>移动端浏览体验如何？</summary>
+                <p>页面采用响应式布局，在手机和平板上会自动调整间距和字体大小，深色头图依然保持视觉重心，不会出现文字重叠或按钮过小的情况。</p>
+            </details>
+            <details>
+                <summary>我需要注册或登录才能浏览吗？</summary>
+                <p>网站的公开部分可以直接访问，无需注册。部分个性化功能或数据查询可能需要依据页面提示操作，但主页本身是开放、无门槛的。</p>
+            </details>
+        </div>
+
+        <!-- 温和结尾 + 额外提示 -->
+        <div class="gentle-closing">
+            <span>📌 书签建议</span>
+            <span>🧩 无诱导内容</span>
+            <span>⚙️ 持续迭代</span>
+            <span style="flex:1; text-align:right; font-size:0.9rem;">— 一个安静的入口，胜过十次搜索。</span>
+        </div>
+
+    </div> <!-- /main-content -->
+
+    <div class="page-footer">
+        <a href="https://homeindex-sporttery.com">竞彩网</a> · 简单识别，从名字开始
+    </div>
+</div> <!-- /wrapper -->
+
+</body>
+</html>
